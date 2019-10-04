@@ -44,13 +44,46 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
+////////////////////////     Oppgave - 1 ////////////////////////////////////
     public DobbeltLenketListe() {
         throw new NotImplementedException();
     }
 
     public DobbeltLenketListe(T[] a) {
-        throw new NotImplementedException();
-    }
+        if (a.length <= 0) {
+            throw new NullPointerException("Tabellen er null.");
+        }
+
+        // anta at det finnes verdi i arrayet og legges de som ikke er null inni i listen. Da må vi løpe
+        // gjennom arrayet
+        if (a.length > 0) {
+            for (int i = 0; i < a.length; i++) {
+                // de som ikke lik null blir med
+                if (a[i] != null) {
+                    // opprett en ny node til elementet fra arrayet og hode peker til denne, for denne er
+                    // den første node i listen
+                    hode = new Node<>(a[i], null, null);
+                    antall++;
+
+
+                }// end inner if
+            }// end for
+            // nå har vi i hvert fall en node, og vi skal legge den neste etter den første.
+            // hode=hale , men hode ikke er null, dvs begge peker på første node.
+            hode= hale; // finnes kun en node i listen
+            if (hode!=null){
+                for (int i=0; i<a.length; i++){
+                    if (a[i]!=null){
+                        hale= new Node<>(a[i],null, hale);// nynod sin frg er tidligere hale
+                        hale= hale.neste; // hale flytter et skritt til høyre
+                        antall++;
+                    }// end inner if
+                } // end for
+            }// end outer if
+
+        }// end outer if
+
+    }// DobbeltLenketListe konstrukør
 
     public Liste<T> subliste(int fra, int til){
         throw new NotImplementedException();
@@ -58,12 +91,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        throw new NotImplementedException();
+        if (antall < 0)
+            throw new NotImplementedException();
+        return antall;
     }
 
     @Override
     public boolean tom() {
-        throw new NotImplementedException();
+        new NotImplementedException();
+        return antall==0;
     }
 
     @Override
