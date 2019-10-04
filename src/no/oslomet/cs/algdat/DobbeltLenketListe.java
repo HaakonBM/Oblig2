@@ -84,6 +84,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }// end outer if
 
     }// DobbeltLenketListe konstrukør
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Liste<T> subliste(int fra, int til){
         throw new NotImplementedException();
@@ -146,16 +147,37 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public void nullstill() {
         throw new NotImplementedException();
     }
-
+    ////////////// Oppgave- 2 /////////////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        throw new NotImplementedException();
-    }
+        String resultat = "[";
+        if (hode==null && hale==null) {
+            return "[]";
+        }
+        else {
+            Node<T> curr = hode;
+            while (curr != null) {
+                resultat += " " + curr.verdi;
+                curr = curr.neste;
+            }// end while
+        }// end else if
+        return resultat+= "]";
+    }// end String
 
     public String omvendtString() {
-        throw new NotImplementedException();
-    }
-
+        String resultat = "[";
+        Node<T> curr= hale;
+        if (hale ==null && hode== null)
+            return "[]";
+        else {
+            while (curr.forrige!=null){
+                resultat+= " "+ curr.verdi;
+                curr= curr.forrige;
+            }// end while
+        }// end else
+        return resultat+= "]";
+    }// end OmvendtString
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Iterator<T> iterator() {
         throw new NotImplementedException();
