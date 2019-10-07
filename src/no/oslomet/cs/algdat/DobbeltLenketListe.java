@@ -149,8 +149,29 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return curr;
     }// end finnNode
 
+    private static void fraTilKontroll(int fra, int til, int antall){
+        if (fra < 0) throw new IndexOutOfBoundsException("fra ("+ fra +"er negaativ ");
+        if (til> antall) throw new IndexOutOfBoundsException("til ( "+ til +") > antall ("+ antall+ ")");
+        if (fra> til) throw new IllegalArgumentException(" Illegalt intervalt");
+    }// end fratilkontrioll
+
+    public Liste<T> subListe(int fra, int til){
+        fraTilKontroll(fra, til, antall);
+        if (fra==til){
+            return new DobbeltLenketListe<>();
+        }
+        Node<T> curr = finnNode(fra);
+        DobbeltLenketListe<T> subliste = new DobbeltLenketListe<>();
+        while (fra < til){
+            subliste.leggInn(curr.verdi);
+            curr= curr.neste;
+        }// end while
+        return subliste;
+    }// end subliste
+
     @Override
     public T hent (int indeks){
+        indeksKontroll(indeks, false);
         return  finnNode(indeks).verdi;
     }// end hent
 
@@ -162,8 +183,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new NotImplementedException();
-    }
+        indeksKontroll(indeks, false);
+            // bruk finnNode metoden for å finne noden, metoden tar inn indeksen
+            T verdi= finnNode(indeks).verdi;
+            // oppdater verdien til noden
+            verdi = nyverdi;
+            endringer++;
+            return  verdi;
+        }// end oppdater
+
 
     @Override
     public boolean fjern(T verdi) {
