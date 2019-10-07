@@ -183,11 +183,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
+        Objects.requireNonNull(nyverdi);
         indeksKontroll(indeks, false);
             // bruk finnNode metoden for å finne noden, metoden tar inn indeksen
-            T verdi= finnNode(indeks).verdi;
-            // oppdater verdien til noden
-            verdi = nyverdi;
+            Node<T> k= finnNode(indeks);
+            T verdi = k.verdi;
+            // oppdater verdien til node k
+            k.verdi= nyverdi;
             endringer++;
             return  verdi;
         }// end oppdater
