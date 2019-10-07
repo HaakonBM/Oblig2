@@ -46,7 +46,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 ////////////////////////     Oppgave - 1 ////////////////////////////////////
     public DobbeltLenketListe() {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public DobbeltLenketListe(T[] a) {
@@ -110,6 +110,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (tom()){
             // kan skrives også som if (hode==null && hale==null)
          hode= hale= new Node<T>(verdi, null,null);
+         antall++;
         }
         else {
         hale.neste= new Node<T>(verdi, hale, null);
