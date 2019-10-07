@@ -130,11 +130,29 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public boolean inneholder(T verdi) {
         throw new NotImplementedException();
     }
+    private Node<T> finnNode(int indeks){
+        Node<T> curr;
+        // begin på hode
+        if (indeks < antall/2){
+            curr= hode;
+            for ( int i=0; i<indeks; i++){
+                curr= curr.neste;
+            }// end for
+        }// end if
+        else {
+            curr= hale;
+            for (int i = antall-1; i>indeks; i--){
+                curr= curr.forrige;
+            }// end for
+        }// end else
+        return curr;
+    }// end finnNode
 
     @Override
-    public T hent(int indeks) {
-        throw new NotImplementedException();
-    }
+    public T hent (int indeks){
+        return  finnNode(indeks).verdi;
+    }// end hent
+
 
     @Override
     public int indeksTil(T verdi) {
