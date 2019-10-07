@@ -50,38 +50,38 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public DobbeltLenketListe(T[] a) {
-        if (a.length <= 0) {
-            throw new NullPointerException("Tabellen er null.");
-        }
+        Objects.requireNonNull("null objekt er ikke tillat!");
 
-        // anta at det finnes verdi i arrayet og legges de som ikke er null inni i listen. Da må vi løpe
-        // gjennom arrayet
-        if (a.length > 0) {
-            for (int i = 0; i < a.length; i++) {
-                // de som ikke lik null blir med
-                if (a[i] != null) {
-                    // opprett en ny node til elementet fra arrayet og hode peker til denne, for denne er
-                    // den første node i listen
+        Objects.requireNonNull("null objekt er ikke tillat!");
+
+        // Finner første verdi i arrayet som ikke er null
+        if(a.length > 0){
+            int i = 0;
+            for (;i < a.length; i++){
+                if(a[i] != null){
                     hode = new Node<>(a[i], null, null);
                     antall++;
-
-
-                }// end inner if
+                    break;
+                }
             }// end for
-            // nå har vi i hvert fall en node, og vi skal legge den neste etter den første.
-            // hode=hale , men hode ikke er null, dvs begge peker på første node.
-            hode= hale; // finnes kun en node i listen
-            if (hode!=null){
-                for (int i=0; i<a.length; i++){
-                    if (a[i]!=null){
-                        hale= new Node<>(a[i],null, hale);// nynod sin frg er tidligere hale
-                        hale= hale.neste; // hale flytter et skritt til høyre
-                        antall++;
-                    }// end inner if
-                } // end for
-            }// end outer if
 
+            hale = hode;
+            if(hode != null){
+                i++;
+                for(;i < a.length; i++){
+                    if(a[i] != null){
+                        hale.neste = new Node<>(a[i], null, hale);
+                        hale = hale.neste;
+                        antall++;
+                    }
+                }
+            }
         }// end outer if
+
+
+
+
+
 
     }// DobbeltLenketListe konstrukør
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,11 +102,24 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         new NotImplementedException();
         return antall==0;
     }
-
+   ///////////////// Oppgave 2/////////////////////////////////////////
     @Override
     public boolean leggInn(T verdi) {
-        throw new NotImplementedException();
-    }
+        Objects.requireNonNull(" Null verdier er ikke tillat.");
+        // tilfelle 1- om listen var tom liste
+        if (tom()){
+            // kan skrives også som if (hode==null && hale==null)
+         hode= hale= new Node<T>(verdi, null,null);
+        }
+        else {
+        hale.neste= new Node<T>(verdi, hale, null);
+        hale= hale.neste;
+            antall++;
+            endringer++;
+        }// end else
+        return true;
+    }// end leggInn
+    ///////////////////////////////////////////////////////////////////
 
     @Override
     public void leggInn(int indeks, T verdi) {
@@ -151,30 +164,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public String toString() {
         String resultat = "[";
-        if (hode==null && hale==null) {
-            return "[]";
-        }
-        else {
-            Node<T> curr = hode;
-            while (curr != null) {
-                resultat += " " + curr.verdi;
-                curr = curr.neste;
-            }// end while
-        }// end else if
+        Node<T> curr = hode;
+        while (curr != null) {
+            resultat+= " "+curr.verdi;
+            curr= curr.neste;
+        }// end while
         return resultat+= "]";
     }// end String
 
     public String omvendtString() {
-        String resultat = "[";
+        String resultat = " [";
         Node<T> curr= hale;
-        if (hale ==null && hode== null)
-            return "[]";
-        else {
-            while (curr.forrige!=null){
-                resultat+= " "+ curr.verdi;
-                curr= curr.forrige;
-            }// end while
-        }// end else
+        //if (tom()) return "[]";
+
+        while (curr!=null){
+            resultat+= " "+curr.verdi;
+            curr= curr.forrige;
+        }
         return resultat+= "]";
     }// end OmvendtString
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
