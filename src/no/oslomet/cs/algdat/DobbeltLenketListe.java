@@ -87,7 +87,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Liste<T> subliste(int fra, int til){
-        throw new NotImplementedException();
+        fraTilKontroll(fra, til, antall);
+        if (fra==til){
+            return new DobbeltLenketListe<>();
+        }
+        Node<T> curr = finnNode(fra);
+        DobbeltLenketListe<T> subliste = new DobbeltLenketListe<>();
+        while (fra < til){
+            subliste.leggInn(curr.verdi);
+            curr= curr.neste;
+        }// end while
+        return subliste;
     }
 
     @Override
@@ -155,19 +165,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (fra> til) throw new IllegalArgumentException(" Illegalt intervalt");
     }// end fratilkontrioll
 
-    public Liste<T> subListe(int fra, int til){
-        fraTilKontroll(fra, til, antall);
-        if (fra==til){
-            return new DobbeltLenketListe<>();
-        }
-        Node<T> curr = finnNode(fra);
-        DobbeltLenketListe<T> subliste = new DobbeltLenketListe<>();
-        while (fra < til){
-            subliste.leggInn(curr.verdi);
-            curr= curr.neste;
-        }// end while
-        return subliste;
-    }// end subliste
+
 
     @Override
     public T hent (int indeks){
@@ -212,25 +210,28 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     ////////////// Oppgave- 2 /////////////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        String resultat = "[";
+        StringBuilder sb = new StringBuilder("[");
         Node<T> curr = hode;
-        while (curr != null) {
-            resultat+= " "+curr.verdi;
-            curr= curr.neste;
-        }// end while
-        return resultat+= "]";
+        if (antall > 0) {
+            sb.append(curr.verdi);
+        }
+        for (int i = 1; i < antall; i++) {
+            curr = curr.neste;
+            sb.append(", ");
+            sb.append(curr.verdi);
+        }
+        sb.append("]");
+        return sb.toString();
     }// end String
 
     public String omvendtString() {
-        String resultat = " [";
-        Node<T> curr= hale;
-        //if (tom()) return "[]";
-
-        while (curr!=null){
-            resultat+= " "+curr.verdi;
-            curr= curr.forrige;
+        StringJoiner sj = new StringJoiner(", ", "[", "]");
+        Node<T> curr = hale;
+        while (curr != null) {
+            sj.add(curr.verdi.toString());
+            curr = curr.forrige;
         }
-        return resultat+= "]";
+        return sj.toString();
     }// end OmvendtString
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
