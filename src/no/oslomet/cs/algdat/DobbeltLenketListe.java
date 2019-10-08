@@ -44,7 +44,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
-////////////////////////     Oppgave - 1 ////////////////////////////////////
+    ////////////////////////     Oppgave - 1 ////////////////////////////////////
     public DobbeltLenketListe() {
         this.hode= null;
         this.hale= null;
@@ -91,23 +91,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }// end tom
 
     ///////////////// Oppgave 2/////////////////////////////////////////
-   @Override
-   public boolean leggInn(T verdi) {
-       Objects.requireNonNull(" Null verdier er ikke tillat.");
-       // tilfelle 1- om listen var tom liste
-       if (tom()){
-           // kan skrives også som if (hode==null && hale==null)
-           hode= hale= new Node<T>(verdi, null,null);
-           antall++;
-       }
-       else {
-           hale.neste= new Node<T>(verdi, hale, null);
-           hale= hale.neste;
-           antall++;
-           endringer++;
-       }// end else
-       return true;
-   }// end leggInn
+    @Override
+    public boolean leggInn(T verdi) {
+        Objects.requireNonNull(" Null verdier er ikke tillat.");
+        // tilfelle 1- om listen var tom liste
+        if (tom()){
+            // kan skrives også som if (hode==null && hale==null)
+            hode= hale= new Node<T>(verdi, null,null);
+            antall++;
+        }
+        else {
+            hale.neste= new Node<T>(verdi, hale, null);
+            hale= hale.neste;
+            antall++;
+            endringer++;
+        }// end else
+        return true;
+    }// end leggInn
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
@@ -241,6 +241,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hale.forrige = newNode;
             hale = newNode;
         }
+        /*else if (r == null){
+            p.neste = null;
+            hale = p;
+        }*/
         else {
             Node<T> nodeTemp = hode;
             for (int i = 1; i < indeks; i++){
@@ -255,16 +259,60 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         endringer++;
     }
 
-
+    ///////////////////// Oppgave 6 /////////////////////////////////////
     @Override
     public boolean fjern(T verdi) {
+        if (verdi == null){
+            return false;
+        }
+        int a;
+        for(int i = 0; i < antall; i++){
+            Node (i)
+
+        }
+
+
         throw new NotImplementedException();
+
+
     }
 
     @Override
     public T fjern(int indeks) {
-        throw new NotImplementedException();
+
+        Node<T> q = finnNode(indeks);
+        Node<T> p = finnNode(indeks - 1);
+        Node<T> r = finnNode(indeks + 1);
+
+        if (q == null){
+            throw new IndexOutOfBoundsException();
+        }
+        if (indeks> (antall-1)){
+            throw new IndexOutOfBoundsException();
+        }
+        if(indeks<0){
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (p == null && r == null){
+            hode = null;
+            hale = null;
+        }
+        else if (p == null){
+            r.forrige = null;
+            hode = r;
+        }
+        else {
+            p.neste = r;
+            r.forrige = p;
+        }
+        endringer++;
+        antall--;
+
+        return (T) q;
+
     }
+    //////////////////oppgave 6 slutt
 
     @Override
     public void nullstill() {
@@ -272,7 +320,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
     ////////////// Oppgave- 2 /////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Iterator<T> iterator() {
         throw new NotImplementedException();
