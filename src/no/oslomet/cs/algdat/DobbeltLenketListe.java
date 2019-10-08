@@ -46,14 +46,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 ////////////////////////     Oppgave - 1 ////////////////////////////////////
     public DobbeltLenketListe() {
-        //throw new NotImplementedException();
-    }
+        this.hode= null;
+        this.hale= null;
+        antall=0; }
 
     public DobbeltLenketListe(T[] a) {
         Objects.requireNonNull("null objekt er ikke tillat!");
-
-        Objects.requireNonNull("null objekt er ikke tillat!");
-
         // Finner første verdi i arrayet som ikke er null
         if(a.length > 0){
             int i = 0;
@@ -77,237 +75,39 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 }
             }
         }// end outer if
-
-
-
-
-
-
     }// DobbeltLenketListe konstrukør
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public Liste<T> subliste(int fra, int til){
-        fraTilKontroll(fra, til, antall);
-        if (fra==til){
-            return new DobbeltLenketListe<>();
-        }
-        Node<T> curr = finnNode(fra);
-        DobbeltLenketListe<T> subliste = new DobbeltLenketListe<>();
-        while (fra < til){
-            subliste.leggInn(curr.verdi);
-            curr= curr.neste;
-        }// end while
-        return subliste;
-    }
 
     @Override
     public int antall() {
         if (antall < 0)
             throw new NotImplementedException();
         return antall;
-    }
+    }// end antall
 
     @Override
     public boolean tom() {
         new NotImplementedException();
         return antall==0;
-    }
-   ///////////////// Oppgave 2/////////////////////////////////////////
-    @Override
-    public boolean leggInn(T verdi) {
-        Objects.requireNonNull(" Null verdier er ikke tillat.");
-        // tilfelle 1- om listen var tom liste
-        if (tom()){
-            // kan skrives også som if (hode==null && hale==null)
-         hode= hale= new Node<T>(verdi, null,null);
-         antall++;
-        }
-        else {
-        hale.neste= new Node<T>(verdi, hale, null);
-        hale= hale.neste;
-            antall++;
-            endringer++;
-        }// end else
-        return true;
-    }// end leggInn
-    ///////////////////////////////////////////////////////////////////
+    }// end tom
 
-
-
-    /////////////////////////// Oppgave 5 /////////////////////////////////////////////////////
-    @Override
-    public void leggInn(int indeks, T verdi) {
-        if (verdi == null){
-            throw new NullPointerException();
-        }
-
-        if (indeks < 0){
-            throw new IndexOutOfBoundsException();
-        }
-        if (indeks > (antall-1)){
-            throw new IndexOutOfBoundsException();
-        }
-
-
-        Node<T> newNode = new Node<T>(verdi);
-        if (hode == null ){ // Hvis Listen er Tom
-            hode = newNode;
-            hale = newNode;
-        }
-
-        else if (indeks == 0){
-            newNode.neste = hode;
-            hode.forrige = newNode;
-            hode = newNode;
-        }
-
-        else if (indeks == (antall - 1)){
-            newNode.forrige = hale;
-            hale.forrige = newNode;
-            hale = newNode;
-        }
-
-        else {
-            Node<T> nodeTemp = hode;
-            for (int i = 1; i < indeks; i++){
-                nodeTemp = nodeTemp.neste;
-                newNode.neste = nodeTemp.neste;
-                nodeTemp.neste = newNode;
-                newNode.forrige = nodeTemp;
-                newNode.neste.forrige = newNode;
-            }
-        }
-        antall++;
-        endringer++;
-    }
-    ///////////// oppgave 5 slutt
-
-    @Override
-    public boolean inneholder(T verdi) {
-        return indeksTil(verdi) != -1;
-    }
-    private Node<T> finnNode(int indeks){
-        Node<T> curr;
-        // begin på hode
-        if (indeks < antall/2){
-            curr= hode;
-            for ( int i=0; i<indeks; i++){
-                curr= curr.neste;
-            }// end for
-        }// end if
-        else {
-            curr= hale;
-            for (int i = antall-1; i>indeks; i--){
-                curr= curr.forrige;
-            }// end for
-        }// end else
-        return curr;
-    }// end finnNode
-
-    private static void fraTilKontroll(int fra, int til, int antall){
-        if (fra < 0) throw new IndexOutOfBoundsException("fra ("+ fra +"er negaativ ");
-        if (til> antall) throw new IndexOutOfBoundsException("til ( "+ til +") > antall ("+ antall+ ")");
-        if (fra> til) throw new IllegalArgumentException(" Illegalt intervalt");
-    }// end fratilkontrioll
-
-
-
-    @Override
-    public T hent (int indeks){
-        indeksKontroll(indeks, false);
-        return  finnNode(indeks).verdi;
-    }// end hent
-
-
-    @Override
-    public int indeksTil(T verdi) {
-        int indeks=0;
-        Node<T> curr= hode;
-        for (; curr!=null; curr= curr.neste, indeks++){
-            if (curr.verdi.equals(verdi)){
-                return indeks;
-
-            }// end if
-
-        }// end for
-        return -1;
-    }
-
-    @Override
-    public T oppdater(int indeks, T nyverdi) {
-        Objects.requireNonNull(nyverdi);
-        indeksKontroll(indeks, false);
-            // bruk finnNode metoden for å finne noden, metoden tar inn indeksen
-            Node<T> k= finnNode(indeks);
-            T verdi = k.verdi;
-            // oppdater verdien til node k
-            k.verdi= nyverdi;
-            endringer++;
-            return  verdi;
-        }// end oppdater
-
-
-
-    ///////////////////// Oppgave 6 /////////////////////////////////////
-    @Override
-    public boolean fjern(T verdi) {
-        if (verdi == null){
-            return false;
-        }
-        int a;
-        for(int i = 0; i < antall; i++){
-            Node (i)
-
-        }
-
-
-        throw new NotImplementedException();
-
-
-    }
-
-    @Override
-    public T fjern(int indeks) {
-
-        Node<T> q = finnNode(indeks);
-        Node<T> p = finnNode(indeks - 1);
-        Node<T> r = finnNode(indeks + 1);
-
-        if (q == null){
-            throw new IndexOutOfBoundsException();
-        }
-        if (indeks> (antall-1)){
-            throw new IndexOutOfBoundsException();
-        }
-        if(indeks<0){
-            throw new IndexOutOfBoundsException();
-        }
-
-        if (p == null && r == null){
-            hode = null;
-            hale = null;
-        }
-        else if (p == null){
-            r.forrige = null;
-            hode = r;
-        }
-        else {
-            p.neste = r;
-            r.forrige = p;
-        }
-        endringer++;
-        antall--;
-
-        return (T) q;
-
-    }
-    //////////////////oppgave 6 slutt
-
-    @Override
-    public void nullstill() {
-        throw new NotImplementedException();
-    }
-    ////////////// Oppgave- 2 /////////////////////////////////////////////////////////////////////////////////
+    ///////////////// Oppgave 2/////////////////////////////////////////
+   @Override
+   public boolean leggInn(T verdi) {
+       Objects.requireNonNull(" Null verdier er ikke tillat.");
+       // tilfelle 1- om listen var tom liste
+       if (tom()){
+           // kan skrives også som if (hode==null && hale==null)
+           hode= hale= new Node<T>(verdi, null,null);
+           antall++;
+       }
+       else {
+           hale.neste= new Node<T>(verdi, hale, null);
+           hale= hale.neste;
+           antall++;
+           endringer++;
+       }// end else
+       return true;
+   }// end leggInn
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
@@ -333,6 +133,145 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
         return sj.toString();
     }// end OmvendtString
+
+
+    //////////////////////////// Oppgave -3 //////////////////////////////////////////////////////////////
+    private Node<T> finnNode(int indeks){
+        Node<T> curr;
+        // begin på hode
+        if (indeks < antall/2){
+            curr= hode;
+            for ( int i=0; i<indeks; i++){
+                curr= curr.neste;
+            }// end for
+        }// end if
+        else {
+            curr= hale;
+            for (int i = antall-1; i>indeks; i--){
+                curr= curr.forrige;
+            }// end for
+        }// end else
+        return curr;
+    }// end finnNode
+
+    @Override
+    public T hent (int indeks){
+        indeksKontroll(indeks, false);
+        return  finnNode(indeks).verdi;
+    }// end hent
+
+    @Override
+    public T oppdater(int indeks, T nyverdi) {
+        Objects.requireNonNull(nyverdi);
+        indeksKontroll(indeks, false);
+        // bruk finnNode metoden for å finne noden, metoden tar inn indeksen
+        Node<T> k= finnNode(indeks);
+        T verdi = k.verdi;
+        // oppdater verdien til node k
+        k.verdi= nyverdi;
+        endringer++;
+        return  verdi;
+    }// end oppdater
+
+    public Liste<T> subliste(int fra, int til){
+        fraTilKontroll(fra, til, antall);
+        if (fra==til){
+            return new DobbeltLenketListe<>();
+        }
+        Node<T> curr = finnNode(fra);
+        DobbeltLenketListe<T> subliste = new DobbeltLenketListe<>();
+        while (fra < til){
+            subliste.leggInn(curr.verdi);
+            curr= curr.neste;
+        }// end while
+        return subliste;
+    }// end subliste
+
+    private static void fraTilKontroll(int fra, int til, int antall){
+        if (fra < 0) throw new IndexOutOfBoundsException("fra ("+ fra +"er negaativ ");
+        if (til> antall) throw new IndexOutOfBoundsException("til ( "+ til +") > antall ("+ antall+ ")");
+        if (fra> til) throw new IllegalArgumentException(" Illegalt intervalt");
+    }// end fratilkontrioll
+
+
+    ////////////////////////////////////// Oppgave 4 //////////////////////////////////////
+    @Override
+    public int indeksTil(T verdi) {
+        int indeks=0;
+        Node<T> curr= hode;
+        for (; curr!=null; curr= curr.neste, indeks++){
+            if (curr.verdi.equals(verdi)){
+                return indeks;
+
+            }// end if
+
+        }// end for
+        return -1;
+    }// end indeksTil
+
+    @Override
+    public boolean inneholder(T verdi) {
+        return indeksTil(verdi) != -1;
+    }// end inneholder
+
+    /////////////////////////////////  Oppgave 5 ///////////////////////////////////////////////////////
+
+    @Override
+
+    public void leggInn(int indeks, T verdi) {
+        if (verdi == null){
+            throw new NullPointerException(); }
+        if (indeks < 0){
+            throw new IndexOutOfBoundsException(); }
+        if (indeks > (antall-1)){
+            throw new IndexOutOfBoundsException(); }
+
+        Node<T> newNode = new Node<T>(verdi);
+        if (hode == null ){ // Hvis Listen er Tom
+            hode = newNode;
+            hale = newNode;
+        }
+        else if (indeks == 0){
+            newNode.neste = hode;
+            hode.forrige = newNode;
+            hode = newNode;
+        }
+        else if (indeks == (antall - 1)){
+            newNode.forrige = hale;
+            hale.forrige = newNode;
+            hale = newNode;
+        }
+        else {
+            Node<T> nodeTemp = hode;
+            for (int i = 1; i < indeks; i++){
+                nodeTemp = nodeTemp.neste;
+                newNode.neste = nodeTemp.neste;
+                nodeTemp.neste = newNode;
+                newNode.forrige = nodeTemp;
+                newNode.neste.forrige = newNode;
+            }
+        }
+        antall++;
+        endringer++;
+    }
+
+
+    @Override
+    public boolean fjern(T verdi) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public T fjern(int indeks) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void nullstill() {
+        throw new NotImplementedException();
+    }
+    ////////////// Oppgave- 2 /////////////////////////////////////////////////////////////////////////////////
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Iterator<T> iterator() {
