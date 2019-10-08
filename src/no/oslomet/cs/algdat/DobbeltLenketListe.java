@@ -254,16 +254,45 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (verdi == null){
             return false;
         }
-        int a;
-        for(int i = 0; i < antall; i++){
-            Node (i)
-
+        if (antall == 1){
+            hode = null;
+            hale = null;
+            return true;
         }
 
+        Node g = hode;
+        int result = 0;
+        for (int i =0; i < antall; i++){
+            g=g.neste;
+            if (verdi.equals(g.verdi)){
+                result = (i + 1);
+                break;
+            }
+        }
 
-        throw new NotImplementedException();
+        Node<T> p = finnNode(result - 2);
+        Node<T> q = finnNode(result - 1);
+        Node<T> r = finnNode(result - 0);
 
+        if (result == 0){
+            return false;
+        }
 
+        if (result == 1){
+            r.forrige = null;
+            hode = r;
+            return true;
+        }
+        else if (result == (antall - 1)){
+            p.neste = null;
+            hale = p;
+            return true;
+        }
+        else {
+            p.neste = r;
+            r.forrige = p;
+            return true;
+        }
     }
 
     @Override
@@ -290,6 +319,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         else if (p == null){
             r.forrige = null;
             hode = r;
+        }
+        else if (r == null){
+            p.neste = null;
+            hale = p;
         }
         else {
             p.neste = r;
