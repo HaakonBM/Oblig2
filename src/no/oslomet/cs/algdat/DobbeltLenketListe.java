@@ -44,7 +44,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
-    ////////////////////////     Oppgave - 1 ////////////////////////////////////
+////////////////////////     Oppgave - 1 ////////////////////////////////////
     public DobbeltLenketListe() {
         this.hode= null;
         this.hale= null;
@@ -91,23 +91,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }// end tom
 
     ///////////////// Oppgave 2/////////////////////////////////////////
-    @Override
-    public boolean leggInn(T verdi) {
-        Objects.requireNonNull(" Null verdier er ikke tillat.");
-        // tilfelle 1- om listen var tom liste
-        if (tom()){
-            // kan skrives også som if (hode==null && hale==null)
-            hode= hale= new Node<T>(verdi, null,null);
-            antall++;
-        }
-        else {
-            hale.neste= new Node<T>(verdi, hale, null);
-            hale= hale.neste;
-            antall++;
-            endringer++;
-        }// end else
-        return true;
-    }// end leggInn
+   @Override
+   public boolean leggInn(T verdi) {
+       Objects.requireNonNull(" Null verdier er ikke tillat.");
+       // tilfelle 1- om listen var tom liste
+       if (tom()){
+           // kan skrives også som if (hode==null && hale==null)
+           hode= hale= new Node<T>(verdi, null,null);
+           antall++;
+       }
+       else {
+           hale.neste= new Node<T>(verdi, hale, null);
+           hale= hale.neste;
+           antall++;
+           endringer++;
+       }// end else
+       return true;
+   }// end leggInn
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
@@ -241,10 +241,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hale.forrige = newNode;
             hale = newNode;
         }
-        /*else if (r == null){
-            p.neste = null;
-            hale = p;
-        }*/
         else {
             Node<T> nodeTemp = hode;
             for (int i = 1; i < indeks; i++){
@@ -259,68 +255,114 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         endringer++;
     }
 
-    ///////////////////// Oppgave 6 /////////////////////////////////////
+///////////////////////////////////// Oppgave 6 /////////////////////////////////////////
     @Override
     public boolean fjern(T verdi) {
-        if (verdi == null){
-            return false;
-        }
-        int a;
-        for(int i = 0; i < antall; i++){
-            Node (i)
-
-        }
-
-
-        throw new NotImplementedException();
-
-
+        Node<T> curr= hode;
+        while (curr!=null){
+            if (antall==1){
+                hode= hale= null; }
+            if (curr==hode){
+               fjernFørst(); }
+            if (curr==hale){
+                fjernSiste(); }
+            else {
+                curr.neste.forrige=curr.forrige;
+                curr.forrige.neste= curr.neste; }
+        }// end while
+        antall--;
+        endringer++;
+        return true;
     }
 
     @Override
     public T fjern(int indeks) {
+        indeksKontroll(indeks, false);
+        Node<T> crr;
+        if (indeks < antall/2){
+            crr =hode;
+            for (int i=0; !(i == indeks) ; i++){
+                crr= crr.neste;
+            }// end if.for
+        }// end if
+        // search at the back of the list
+        else {
+            crr= hale;
+            for (int i= antall-1; i!= indeks; i--){
+                hale= hale.forrige;
 
-        Node<T> q = finnNode(indeks);
-        Node<T> p = finnNode(indeks - 1);
-        Node<T> r = finnNode(indeks + 1);
+            }// end else.for
 
-        if (q == null){
-            throw new IndexOutOfBoundsException();
-        }
-        if (indeks> (antall-1)){
-            throw new IndexOutOfBoundsException();
-        }
-        if(indeks<0){
-            throw new IndexOutOfBoundsException();
-        }
+        }// end else
+        antall--;
+        endringer++;
+        return fjern(crr);
 
-        if (p == null && r == null){
-            hode = null;
-            hale = null;
-        }
-        else if (p == null){
-            r.forrige = null;
-            hode = r;
+    }// end fjern
+    // hjelpe metode
+    private T fjern( Node<T> node){
+        // om noden som blir fjerne  ligger på første plass
+        if (node.forrige==null) fjernFørst();
+        if (node.neste==null) fjernSiste();
+
+        // ellers pekeren må justeres på den riktig plass
+        node.neste.forrige=node.forrige;
+        node.forrige.neste= node.neste;
+        // her må vi deklarere den verdien til noden  som skal fjernes
+        T verdi=  node.verdi;
+        antall--;
+        endringer++;
+        return verdi;
+    } //end private fjern
+
+
+    // hjelpe metode
+      public T fjernFørst(){
+
+        T verdi = hode.verdi;
+      if (hode==hale){
+          hode= hale= null;
+      }
+      else {
+      hode= hode.neste;
+      hode.forrige= null;
+      }
+      antall--;
+      endringer++;
+      return verdi;
+      }// end fjernFørst
+
+    public T fjernSiste(){
+
+        T verdi = hale.verdi;
+        if (hode==hale){
+            hode= hale=null;
         }
         else {
-            p.neste = r;
-            r.forrige = p;
+            hale= hale.forrige;
+            hale.neste= null;
         }
-        endringer++;
         antall--;
+        endringer++;
+        return verdi;
+    }// end fjernSist
 
-        return (T) q;
-
-    }
-    //////////////////oppgave 6 slutt
+    ////////////////////////  Oppgave 7  /////////////////////////////////////////////////
 
     @Override
     public void nullstill() {
-        throw new NotImplementedException();
+       Node<T> curr= hode;
+       while (curr!=null){
+       Node<T> p= curr.neste;
+       curr.forrige=curr.neste= null;
+       curr.verdi= null;
+       curr= p;
+       }
+       hode= hale= null;
+       endringer++;
+       antall=0;
     }
-    ////////////// Oppgave- 2 /////////////////////////////////////////////////////////////////////////////////
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public Iterator<T> iterator() {
         throw new NotImplementedException();
