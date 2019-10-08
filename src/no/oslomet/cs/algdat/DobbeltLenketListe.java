@@ -347,10 +347,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return verdi;
     }// end fjernSist
 
+    ////////////////////////  Oppgave 7  /////////////////////////////////////////////////
 
     @Override
     public void nullstill() {
-        throw new NotImplementedException();
+       Node<T> curr= hode;
+       while (curr!=null){
+       Node<T> p= curr.neste;
+       curr.forrige=curr.neste= null;
+       curr.verdi= null;
+       curr= p;
+       }
+       hode= hale= null;
+       endringer++;
+       antall=0;
     }
 
     @Override
