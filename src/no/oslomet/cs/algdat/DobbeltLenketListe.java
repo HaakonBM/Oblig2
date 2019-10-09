@@ -55,7 +55,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         antall=0; }
 
     public DobbeltLenketListe(T[] a) {
-        Objects.requireNonNull("null objekt er ikke tillat!");
+        Objects.requireNonNull(a,"null objekt er ikke tillat!");
         // Finner første verdi i arrayet som ikke er null
         if(a.length > 0){
             int i = 0;
@@ -97,22 +97,19 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     ///////////////// Oppgave 2/////////////////////////////////////////
    @Override
    public boolean leggInn(T verdi) {
-        if (verdi.equals(null)) {
-            Objects.requireNonNull(" Null verdier er ikke tillat.");
-        }
+        Objects.requireNonNull(verdi," Null verdier er ikke tillat.");
        // tilfelle 1- om listen var tom liste
-       else if (tom()){
-           // kan skrives også som if (hode==null && hale==null)
-           hode= hale= new Node<T>(verdi, null,null);
-           antall++;
-       }
-       else {
-           hale.neste= new Node<T>(verdi, hale, null);
-           hale= hale.neste;
-           antall++;
-           endringer++;
-       }// end else
-       return true;
+           if (tom()) {
+               // kan skrives også som if (hode==null && hale==null)
+               hode = hale = new Node<T>(verdi, null, null);
+               antall++;
+           } else {
+               hale.neste = new Node<T>(verdi, hale, null);
+               hale = hale.neste;
+               antall++;
+               endringer++;
+           }// end else
+           return true;
    }// end leggInn
     @Override
     public String toString() {
