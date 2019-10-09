@@ -370,14 +370,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
        antall=0;
     }
 
-    @Override
-    public Iterator<T> iterator() {
-        throw new NotImplementedException();
-    }
-
-    public Iterator<T> iterator(int indeks) {
-        throw new NotImplementedException();
-    }
+    ///////////////////////////// Oppgave - 8 //////////////////////////////////////////////
 
     private class DobbeltLenketListeIterator implements Iterator<T>
     {
@@ -385,22 +378,34 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         private boolean fjernOK;
         private int iteratorendringer;
 
-        private DobbeltLenketListeIterator(){
-            throw new NotImplementedException();
+        public DobbeltLenketListeIterator(){
+            denne= hode;
+            fjernOK=false;
+            iteratorendringer= endringer;
         }
 
         private DobbeltLenketListeIterator(int indeks){
-            throw new NotImplementedException();
+            denne=finnNode(indeks);
+            fjernOK=false;
+            iteratorendringer=endringer;
+
         }
 
         @Override
         public boolean hasNext(){
-            throw new NotImplementedException();
+            return denne!=null;
         }
 
         @Override
         public T next(){
-            throw new NotImplementedException();
+            if (endringer!=iteratorendringer)
+                throw new ConcurrentModificationException();
+            if (!hasNext())
+                throw new NoSuchElementException();
+            T resultat = denne.verdi;
+            denne= denne.neste;
+            fjernOK= true;
+            return resultat;
         }
 
         @Override
@@ -409,6 +414,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
     } // class DobbeltLenketListeIterator
+
+    @Override
+    public Iterator<T> iterator() {
+        return new DobbeltLenketListeIterator();
+    }
+
+    public Iterator<T> iterator(int indeks) {
+        indeksKontroll(indeks, false);
+        return new DobbeltLenketListeIterator(indeks);
+    }
+
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
         throw new NotImplementedException();
