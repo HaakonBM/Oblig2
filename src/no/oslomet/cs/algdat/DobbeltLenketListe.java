@@ -408,7 +408,7 @@ public boolean fjern(T verdi) {
     }
 
 
-
+    ////////////////////////// Opg 10  ////////////////////////////////////
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
         if (liste.tom()){
             return;
@@ -421,14 +421,17 @@ public boolean fjern(T verdi) {
         }
 
 
-
         /*public T compareTo(char a, char b){
+
+
 
         }*/// Metode for å Sammenligne både int og String,   får det ikke til
 
+
+
         for (int i = 0; i <antallListe; i++){
             for (int j = i +1; j <antallListe; j++ ) {
-                /*if (liste.hent(i).compareTo.liste.hent(j) ) {
+                /*if (liste.hent(i) compareTo  liste.hent(j) ) {
 
                     liste.leggInn(i,(liste.hent(j)));
                     liste.leggInn(j,(liste.hent(i)));
