@@ -6,6 +6,10 @@ package no.oslomet.cs.algdat;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
@@ -93,9 +97,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     ///////////////// Oppgave 2/////////////////////////////////////////
    @Override
    public boolean leggInn(T verdi) {
-       Objects.requireNonNull(" Null verdier er ikke tillat.");
+        if (verdi.equals(null)) {
+            Objects.requireNonNull(" Null verdier er ikke tillat.");
+        }
        // tilfelle 1- om listen var tom liste
-       if (tom()){
+       else if (tom()){
            // kan skrives også som if (hode==null && hale==null)
            hode= hale= new Node<T>(verdi, null,null);
            antall++;
