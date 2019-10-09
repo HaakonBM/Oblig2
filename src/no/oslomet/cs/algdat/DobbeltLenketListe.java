@@ -55,7 +55,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         antall=0; }
 
     public DobbeltLenketListe(T[] a) {
-        Objects.requireNonNull(a,"null objekt er ikke tillat!");
+            Objects.requireNonNull(a, "null objekt er ikke tillat!");
         // Finner første verdi i arrayet som ikke er null
         if(a.length > 0){
             int i = 0;
@@ -72,7 +72,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 i++;
                 for(;i < a.length; i++){
                     if(a[i] != null){
-                        hale.neste = new Node<>(a[i], null, hale);
+                        hale.neste = new Node<>(a[i], hale, null);
                         hale = hale.neste;
                         antall++;
                     }
