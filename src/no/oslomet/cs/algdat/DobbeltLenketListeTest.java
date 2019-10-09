@@ -978,6 +978,7 @@ class DobbeltLenketListeTest {
             }
         }
 
+
         liste.leggInn(1);
 
         Iterator<Integer> i = liste.iterator();

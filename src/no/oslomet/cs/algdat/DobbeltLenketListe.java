@@ -227,11 +227,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
 
     public void leggInn(int indeks, T verdi) {
+
         if (verdi == null){
             throw new NullPointerException(); }
         if (indeks < 0){
             throw new IndexOutOfBoundsException(); }
-        if (indeks > (antall-1)){
+        if (indeks > (antall - 1)){
             throw new IndexOutOfBoundsException(); }
 
         Node<T> newNode = new Node<T>(verdi);
@@ -362,10 +363,11 @@ public boolean fjern(T verdi) {
 
         @Override
         public T next(){
-            if (endringer!=iteratorendringer)
+            if (endringer!=iteratorendringer) {
                 throw new ConcurrentModificationException();
-            if (!hasNext())
+            } else if (!hasNext()) {
                 throw new NoSuchElementException();
+            }
             T resultat = denne.verdi;
             denne= denne.neste;
             fjernOK= true;
