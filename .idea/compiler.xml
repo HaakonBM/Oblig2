@@ -2,7 +2,7 @@
 <project version="4">
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Oblig2" options="--add-exports=java.base/sun.reflect.generics.reflectiveObjects=ALL-UNNAMED" />
+      <module name="Oblig2"  />
     </option>
   </component>
 </project>
