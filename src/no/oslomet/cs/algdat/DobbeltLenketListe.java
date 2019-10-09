@@ -4,6 +4,7 @@ package no.oslomet.cs.algdat;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
+import com.sun.org.apache.xpath.internal.objects.XBoolean;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -427,7 +428,33 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new NotImplementedException();
+        if (liste.tom()){
+            return;
+        }
+
+        int antallListe = liste.antall();
+
+        if (antallListe == 1){
+            return;
+        }
+
+
+
+        /*public T compareTo(char a, char b){
+
+        }*/// Metode for å Sammenligne både int og String,   får det ikke til
+
+        for (int i = 0; i <antallListe; i++){
+            for (int j = i +1; j <antallListe; j++ ) {
+                /*if (liste.hent(i).compareTo.liste.hent(j) ) {
+
+                    liste.leggInn(i,(liste.hent(j)));
+                    liste.leggInn(j,(liste.hent(i)));
+                    liste.fjern(i+1);
+                    liste.fjern(j+1);
+                }*/////
+            }
+        }
     }
 
 } // class DobbeltLenketListe
