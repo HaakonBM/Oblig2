@@ -410,8 +410,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public void remove(){
-            throw new NotImplementedException();
-        }
+           if (!fjernOK) throw new IllegalArgumentException();
+           if (iteratorendringer!=endringer) throw new ConcurrentModificationException();
+           if (antall==1){
+               hode=hale=null;
+           }
+           else if (denne==null){
+               hale= hale.forrige;
+               hale.neste= null;
+           }
+           else {
+               Node<T> p= denne.forrige.forrige;
+               p.neste= denne;
+               denne.forrige= p;
+               antall--;
+               iteratorendringer++;
+               endringer++;
+               fjernOK= false;
+           }
+
+        }// end remove
 
     } // class DobbeltLenketListeIterator
 
