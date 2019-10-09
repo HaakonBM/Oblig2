@@ -6,6 +6,10 @@ package no.oslomet.cs.algdat;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
@@ -51,7 +55,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         antall=0; }
 
     public DobbeltLenketListe(T[] a) {
-        Objects.requireNonNull("null objekt er ikke tillat!");
+            Objects.requireNonNull(a, "null objekt er ikke tillat!");
         // Finner første verdi i arrayet som ikke er null
         if(a.length > 0){
             int i = 0;
@@ -68,7 +72,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 i++;
                 for(;i < a.length; i++){
                     if(a[i] != null){
-                        hale.neste = new Node<>(a[i], null, hale);
+                        hale.neste = new Node<>(a[i], hale, null);
                         hale = hale.neste;
                         antall++;
                     }
@@ -93,20 +97,19 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     ///////////////// Oppgave 2/////////////////////////////////////////
    @Override
    public boolean leggInn(T verdi) {
-       Objects.requireNonNull(" Null verdier er ikke tillat.");
+        Objects.requireNonNull(verdi," Null verdier er ikke tillat.");
        // tilfelle 1- om listen var tom liste
-       if (tom()){
-           // kan skrives også som if (hode==null && hale==null)
-           hode= hale= new Node<T>(verdi, null,null);
-           antall++;
-       }
-       else {
-           hale.neste= new Node<T>(verdi, hale, null);
-           hale= hale.neste;
-           antall++;
-           endringer++;
-       }// end else
-       return true;
+           if (tom()) {
+               // kan skrives også som if (hode==null && hale==null)
+               hode = hale = new Node<T>(verdi, null, null);
+               antall++;
+           } else {
+               hale.neste = new Node<T>(verdi, hale, null);
+               hale = hale.neste;
+               antall++;
+               endringer++;
+           }// end else
+           return true;
    }// end leggInn
     @Override
     public String toString() {
@@ -174,17 +177,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }// end oppdater
 
     public Liste<T> subliste(int fra, int til){
+
         fraTilKontroll(fra, til, antall);
         if (fra==til){
             return new DobbeltLenketListe<>();
+        } else {
+
+            Node<T> curr = finnNode(fra);
+            DobbeltLenketListe<T> subliste = new DobbeltLenketListe<>();
+            while (fra < til ) {
+                subliste.leggInn(curr.verdi);
+                curr = curr.neste;
+                fra++;
+            }// end while
+            return subliste;
         }
-        Node<T> curr = finnNode(fra);
-        DobbeltLenketListe<T> subliste = new DobbeltLenketListe<>();
-        while (fra < til){
-            subliste.leggInn(curr.verdi);
-            curr= curr.neste;
-        }// end while
-        return subliste;
     }// end subliste
 
     private static void fraTilKontroll(int fra, int til, int antall){
