@@ -177,17 +177,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }// end oppdater
 
     public Liste<T> subliste(int fra, int til){
+
         fraTilKontroll(fra, til, antall);
         if (fra==til){
             return new DobbeltLenketListe<>();
+        } else {
+
+            Node<T> curr = finnNode(fra);
+            DobbeltLenketListe<T> subliste = new DobbeltLenketListe<>();
+            while (fra < til ) {
+                subliste.leggInn(curr.verdi);
+                curr = curr.neste;
+                fra++;
+            }// end while
+            return subliste;
         }
-        Node<T> curr = finnNode(fra);
-        DobbeltLenketListe<T> subliste = new DobbeltLenketListe<>();
-        while (fra < til){
-            subliste.leggInn(curr.verdi);
-            curr= curr.neste;
-        }// end while
-        return subliste;
     }// end subliste
 
     private static void fraTilKontroll(int fra, int til, int antall){
