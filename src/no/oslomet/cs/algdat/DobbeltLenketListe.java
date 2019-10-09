@@ -429,8 +429,14 @@ public boolean fjern(T verdi) {
 
 
 
+        char a;
+        char b;
+
+
         for (int i = 0; i <antallListe; i++){
             for (int j = i +1; j <antallListe; j++ ) {
+
+
                 /*if (liste.hent(i) compareTo  liste.hent(j) ) {
 
                     liste.leggInn(i,(liste.hent(j)));
